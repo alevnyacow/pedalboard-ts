@@ -29,6 +29,5 @@
     "@rstest/core": "^0.9.10",
     "@types/node": "^24.12.4",
     "typescript": "^6.0.3"
-  },
-  "private": true
+  }
 }
