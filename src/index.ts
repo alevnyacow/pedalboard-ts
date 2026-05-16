@@ -1,1 +1,3 @@
-export const squared = (n: number): number => n * n;
+export * as Domain from "./domain";
+export * as REST from "./rest";
+export * as DI from "./di";
