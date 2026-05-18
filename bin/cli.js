@@ -3,11 +3,11 @@ import fs from "fs";
 import { select } from "@inquirer/prompts";
 import scaffoldModule from "./scaffold-module.js";
 import initializeProject from "./initialize-project.js";
-
 import * as ConfigFile from "./utils/config-file.js";
 import scaffoldUseCase from "./scaffold-use-case.js";
 import { fromProjectRoot } from "./utils/path.js";
 import scaffoldEntity from "./scaffold-entity.js";
+import scaffoldValueObject from "./scaffold-value-object.js";
 
 async function scaffoldInModule() {
     const moduleFolders = fs
@@ -43,31 +43,35 @@ async function scaffoldInModule() {
     if (type === "Entity") {
         await scaffoldEntity(pathToModule);
     }
+
+    if (type === "Value Object") {
+        await scaffoldValueObject(pathToModule);
+    }
 }
 
 async function main() {
     try {
         await ConfigFile.read();
-
-        const answer = await select({
-            message: "Command",
-            choices: [
-                "Scaffold something in existing module",
-                "Scaffold something in shared layer",
-                "Scaffold new module",
-            ],
-        });
-
-        if (answer === "Scaffold something in existing module") {
-            await scaffoldInModule();
-        }
-
-        if (answer === "Scaffold new module") {
-            await scaffoldModule();
-        }
     } catch (e) {
-        console.error(e);
         await initializeProject();
+        process.exit(0);
+    }
+
+    const answer = await select({
+        message: "Command",
+        choices: [
+            "Scaffold something in existing module",
+            "Scaffold something in shared layer",
+            "Scaffold new module",
+        ],
+    });
+
+    if (answer === "Scaffold something in existing module") {
+        await scaffoldInModule();
+    }
+
+    if (answer === "Scaffold new module") {
+        await scaffoldModule();
     }
 
     process.exit(0);
