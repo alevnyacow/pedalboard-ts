@@ -27,12 +27,12 @@ export class ${PascalCase} extends Domain.Entity(schema) {
 }
        `,
         ...entitiesPath,
-        `${entityName}.ts`,
+        `${entityName}.entity.ts`,
     );
 
     addLine(
         await fromProjectRoot(...entitiesPath, "index.ts"),
-        `export * from './${entityName}'`,
+        `export * from './${entityName}.entity'`,
     );
 };
 

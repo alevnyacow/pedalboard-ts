@@ -27,12 +27,12 @@ export class ${PascalCase} extends Domain.ValueObject(schema) {
 }
        `,
         ...valueObjectsPath,
-        `${valueObjectName}.ts`,
+        `${valueObjectName}.value-object.ts`,
     );
 
     addLine(
         await fromProjectRoot(...valueObjectsPath, "index.ts"),
-        `export * from './${valueObjectName}'`,
+        `export * from './${valueObjectName}.value-object'`,
     );
 };
 

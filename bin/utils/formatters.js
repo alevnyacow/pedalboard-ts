@@ -1,11 +1,22 @@
+const abbreviatures = ["API", "DB"];
+
 /**
  * Transforms string of unknown case (camel, pascal, kebab) to
  * `camelCase` and `PascalCase`.
  *
- * @param {string} source
+ * @param {string} rawSource
  * @returns {{camelCase: string, PascalCase: string}}
  */
-export const toCamelAndPascalFromUnknownCase = (source) => {
+export const toCamelAndPascalFromUnknownCase = (rawSource) => {
+    const source = rawSource.trim();
+
+    if (abbreviatures.includes(source.toUpperCase())) {
+        return {
+            PascalCase: source.toUpperCase(),
+            camelCase: source.toLowerCase(),
+        };
+    }
+
     if (!source.includes("-")) {
         return {
             camelCase:

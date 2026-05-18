@@ -36,17 +36,12 @@ export const ${PascalCase} = UseCase.create({
 });
         `,
         ...pathToUseCases,
-        `${useCaseName}.ts`,
+        `${useCaseName}.use-case.ts`,
     );
 
     addLine(
-        await fromProjectRoot(
-            ...pathToModule,
-            "application",
-            "use-cases",
-            "index.ts",
-        ),
-        `export * from './${useCaseName}'`,
+        await fromProjectRoot(...pathToUseCases, "index.ts"),
+        `export * from './${useCaseName}.use-case'`,
     );
 };
 

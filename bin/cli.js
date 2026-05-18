@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import fs from "fs";
 import { select } from "@inquirer/prompts";
-import scaffoldModule from "./scaffold-module.js";
 import initializeProject from "./initialize-project.js";
 import * as ConfigFile from "./utils/config-file.js";
 import scaffoldUseCase from "./scaffold-use-case.js";
 import { fromProjectRoot } from "./utils/path.js";
+import scaffoldModule from "./scaffold-module.js";
 import scaffoldEntity from "./scaffold-entity.js";
 import scaffoldValueObject from "./scaffold-value-object.js";
+import scaffoldInfrastructureService from "./scaffold-infrastructure-service.js";
 
 async function scaffoldInModule() {
     const moduleFolders = fs
@@ -29,7 +30,7 @@ async function scaffoldInModule() {
             "Repository",
             "Entity",
             "Event",
-            "Provider",
+            "Infrastructure Service",
             "Value Object",
         ],
     });
@@ -46,6 +47,10 @@ async function scaffoldInModule() {
 
     if (type === "Value Object") {
         await scaffoldValueObject(pathToModule);
+    }
+
+    if (type === "Infrastructure Service") {
+        await scaffoldInfrastructureService(pathToModule);
     }
 }
 
