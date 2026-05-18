@@ -1,5 +1,5 @@
 import { input, select } from "@inquirer/prompts";
-import { newFile, newFolder } from "./utils/fs.js";
+import { newFile } from "./utils/fs.js";
 import { toCamelAndPascalFromUnknownCase } from "./utils/formatters.js";
 
 const scaffoldModule = async () => {
@@ -14,8 +14,30 @@ const scaffoldModule = async () => {
         choices: ["REST"],
     });
 
-    await newFolder("modules", name, "infrastructure", "di");
-    await newFolder("modules", name, "domain");
+    await newFile(
+        `
+import { DI } from 'pedalboard-ts'
+import { container as rootContainer } from "../../../../infrastructure/di";
+
+export const container = DI.newContainer({}, rootContainer)
+`,
+        "modules",
+        name,
+        "infrastructure",
+        "di",
+        "container.ts",
+    );
+
+    await newFile(
+        `
+export * from './container'
+        `,
+        "modules",
+        name,
+        "infrastructure",
+        "di",
+        "index.ts",
+    );
 
     await newFile("", "modules", name, "application", "use-cases", "index.ts");
 
@@ -26,7 +48,7 @@ import type { REST } from 'pedalboard-ts'
 import * as UseCases from '../application/use-cases'
 
 export const ${PascalCase}Controller = {
-\t// Methods
+\t
 }
 
 export type ${PascalCase}API = REST.ControllerContracts<

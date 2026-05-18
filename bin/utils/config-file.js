@@ -26,5 +26,10 @@ export const read = async () => {
 };
 
 export const write = async (config) => {
-    await writeFile(configFileName, JSON.stringify(config, null, "\t"));
+    const root = findProjectRoot();
+
+    fs.writeFileSync(
+        path.resolve(root, config.rootFolder, configFileName),
+        JSON.stringify(config, null, "\t"),
+    );
 };
