@@ -86,3 +86,13 @@ export const insertBeforeLineInFile = (
         fs.writeFileSync(filePath, lines.join("\n"), "utf8");
     }
 };
+
+export const addLine = (filePath, newLine) => {
+    const content = fs.readFileSync(filePath, "utf8");
+
+    fs.writeFileSync(
+        filePath,
+        [content.trim(), newLine.trim()].join("\n"),
+        "utf8",
+    );
+};

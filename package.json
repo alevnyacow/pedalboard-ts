@@ -37,7 +37,7 @@
         "@inquirer/prompts": "^8.4.3",
         "@stompbox/chorus": "^2.0.1",
         "@stompbox/compressor": "^6.0.4",
-        "@stompbox/spring-reverb": "^13.1.0",
+        "@stompbox/spring-reverb": "^14.0.0",
         "@stompbox/tape-delay": "^3.0.5",
         "zod": "^4.4.3"
     }

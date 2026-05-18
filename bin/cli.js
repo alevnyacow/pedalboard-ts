@@ -4,9 +4,13 @@ import { select, input } from "@inquirer/prompts";
 import scaffoldModule from "./scaffold-module.js";
 import initializeProject from "./initialize-project.js";
 
+import * as ConfigFile from "./utils/config-file.js";
+import scaffoldUseCase from "./scaffold-use-case.js";
+import { fromProjectRoot } from "./utils/path.js";
+
 async function scaffoldInModule() {
     const moduleFolders = fs
-        .readdirSync(await projectPaths.source("modules"), {
+        .readdirSync(await fromProjectRoot("modules"), {
             withFileTypes: true,
         })
         .filter((x) => x.isDirectory)
@@ -32,44 +36,32 @@ async function scaffoldInModule() {
     const pathToModule = ["modules", module];
 
     if (type === "Use-case") {
-        const useCaseName = await input({
-            message: "Use-case name",
-        });
-
-        const pathToUseCases = [...pathToModule, "application", "use-cases"];
-        await createFile(
-            `
-export const sup = 22
-
-export const suppy42 = 532
-`,
-            ...pathToUseCases,
-            `${useCaseName}.ts`,
-        );
+        await scaffoldUseCase(pathToModule);
     }
 }
 
 async function main() {
-    const answer = await select({
-        message: "Command",
-        choices: [
-            "Scaffold something in existing module",
-            "Scaffold something in shared layer",
-            "Scaffold new module",
-            "Initialize",
-        ],
-    });
+    try {
+        await ConfigFile.read();
 
-    if (answer === "Scaffold something in existing module") {
-        await scaffoldInModule();
-    }
+        const answer = await select({
+            message: "Command",
+            choices: [
+                "Scaffold something in existing module",
+                "Scaffold something in shared layer",
+                "Scaffold new module",
+            ],
+        });
 
-    if (answer === "Scaffold new module") {
-        // await scaffoldNewModule();
-        await scaffoldModule();
-    }
+        if (answer === "Scaffold something in existing module") {
+            await scaffoldInModule();
+        }
 
-    if (answer === "Initialize") {
+        if (answer === "Scaffold new module") {
+            await scaffoldModule();
+        }
+    } catch (e) {
+        console.error(e);
         await initializeProject();
     }
 
