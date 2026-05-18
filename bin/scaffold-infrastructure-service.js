@@ -56,6 +56,22 @@ export class ${nameInPascalCase}MockInfrastructureService extends ${nameInPascal
         "infrastructure-services",
         `${name}.infrastructure-service.mock.ts`,
     );
+
+    const { PascalCase: typeInPascal } = toCamelAndPascalFromUnknownCase(type);
+
+    await newFile(
+        `
+import { ${nameInPascalCase}InfrastructureService } from '../../../application/infrastructure-services'
+
+export class ${nameInPascalCase}${typeInPascal}InfrastructureService extends ${nameInPascalCase}InfrastructureService {
+\t
+}
+        `,
+        ...pathToInfrastructure,
+        type,
+        "infrastructure-services",
+        `${name}.infrastructure-service.${type}.ts`,
+    );
 };
 
 export default scaffoldInfrastructureService;
