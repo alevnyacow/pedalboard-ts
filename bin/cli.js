@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 import fs from "fs";
-import { select, input } from "@inquirer/prompts";
+import { select } from "@inquirer/prompts";
 import scaffoldModule from "./scaffold-module.js";
 import initializeProject from "./initialize-project.js";
 
 import * as ConfigFile from "./utils/config-file.js";
 import scaffoldUseCase from "./scaffold-use-case.js";
 import { fromProjectRoot } from "./utils/path.js";
+import scaffoldEntity from "./scaffold-entity.js";
 
 async function scaffoldInModule() {
     const moduleFolders = fs
@@ -37,6 +38,10 @@ async function scaffoldInModule() {
 
     if (type === "Use-case") {
         await scaffoldUseCase(pathToModule);
+    }
+
+    if (type === "Entity") {
+        await scaffoldEntity(pathToModule);
     }
 }
 

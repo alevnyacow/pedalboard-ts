@@ -88,11 +88,14 @@ export const insertBeforeLineInFile = (
 };
 
 export const addLine = (filePath, newLine) => {
-    const content = fs.readFileSync(filePath, "utf8");
+    let content = "";
+    try {
+        content = fs.readFileSync(filePath, "utf8");
+    } catch {}
 
     fs.writeFileSync(
         filePath,
-        [content.trim(), newLine.trim()].join("\n"),
+        [content.trim(), newLine.trim()].filter((x) => !!x).join("\n"),
         "utf8",
     );
 };
